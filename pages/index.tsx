@@ -1,17 +1,11 @@
+import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 
-export default function Home() {
+interface HomeProps {
+  repositories: string[]
+}
 
-  const [repositories, setRepositories] = useState([] as string[]);
-
-  useEffect(() => {
-    fetch('https://api.github.com/users/LeonardoZivieri/repos')
-      .then(d => d.json())
-      .then(repositories => {
-        const repositoryNames = repositories.map((repo) => repo.name);
-        setRepositories(repositoryNames)
-      })
-  }, [])
+export default function Home({ repositories }: HomeProps) {
 
   return (
     <>
@@ -22,4 +16,17 @@ export default function Home() {
       </ul>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
+
+  const response = await fetch('https://api.github.com/users/LeonardoZivieri/repos')
+  const repositories = await response.json();
+  const repositoryNames = repositories.map((repo) => repo.name);
+
+  return {
+    props: {
+      repositories: repositoryNames
+    }
+  }
 }
