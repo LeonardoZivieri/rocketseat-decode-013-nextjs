@@ -29,6 +29,6 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
       repositories: repositoryNames,
       renderedAt: new Date().toJSON()
     },
-    revalidate: 5,
+    revalidate: 60 * 60 * 4, // 4 hours
   }
 }
