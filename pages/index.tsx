@@ -28,6 +28,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
     props: {
       repositories: repositoryNames,
       renderedAt: new Date().toJSON()
-    }
+    },
+    revalidate: 5,
   }
 }
